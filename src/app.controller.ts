@@ -7,6 +7,6 @@ export class AppController {
 
   @Get()
   getHello(): string {
-    return 'Welcome to the Paste API!';
+    return this.appService.getHello();
   }
 }
