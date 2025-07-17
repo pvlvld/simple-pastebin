@@ -5,9 +5,10 @@ import { PasteController } from './paste/paste.controller';
 import { PasteService } from './paste/paste.service';
 import { PasteModule } from './paste/paste.module';
 import { AppConfigModule } from './config/config.module';
+import { DatabaseModule } from './database/database.module';
 
 @Module({
-  imports: [PasteModule, AppConfigModule],
+  imports: [PasteModule, AppConfigModule, DatabaseModule],
   controllers: [AppController, PasteController],
   providers: [AppService, PasteService],
 })
