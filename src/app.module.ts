@@ -10,6 +10,6 @@ import { DatabaseModule } from './database/database.module';
 @Module({
   imports: [PasteModule, AppConfigModule, DatabaseModule],
   controllers: [AppController, PasteController],
-  providers: [AppService, PasteService],
+  providers: [AppService],
 })
 export class AppModule {}
