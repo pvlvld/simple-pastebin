@@ -13,8 +13,12 @@ import { PasteService } from './paste.service';
 export class PasteController {
   constructor(private readonly pasteService: PasteService) {}
   @Get(':id')
-  get(@Param('id') id: string): string {
-    return `getting paste ${id}`;
+  async get(@Param('id', ParseIntPipe) id: number): Promise<string> {
+    const paste = await this.pasteService.findOne(id);
+    if (paste) {
+      return JSON.stringify(paste);
+    }
+    throw new NotFoundException(`Paste with id ${id} not found`);
   }
 
   @Post()

@@ -13,4 +13,8 @@ export class PasteService {
   async create(paste: Paste): Promise<Paste> {
     return this.pasteRepository.save(paste);
   }
+
+  async findOne(id: number): Promise<Paste | null> {
+    return this.pasteRepository.findOneBy({ id });
+  }
 }
