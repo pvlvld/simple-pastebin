@@ -17,4 +17,12 @@ export class PasteService {
   async findOne(id: number): Promise<Paste | null> {
     return this.pasteRepository.findOneBy({ id });
   }
+
+  async incrementViews(id: number): Promise<void> {
+    await this.pasteRepository.increment({ id }, 'views', 1);
+  }
+
+  async remove(id: number): Promise<void> {
+    await this.pasteRepository.update(id, { isDeleted: true });
+  }
 }
