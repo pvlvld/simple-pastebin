@@ -8,12 +8,19 @@ export class Paste {
   @Column({ length: 500 })
   name: string;
 
-  @Column('text')
+  @Column({
+    type: 'text',
+  })
   content: string;
 
-  @Column('int')
+  @Column({
+    type: 'int',
+    default: 0,
+  })
   views: number;
 
-  @Column()
-  isPublished: boolean;
+  @Column({
+    default: true,
+  })
+  isDeleted: boolean;
 }
