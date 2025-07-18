@@ -1,10 +1,14 @@
 import { DataSource } from 'typeorm';
 import { Paste } from './paste.entity';
+import {
+  PASTE_TYPEORM_REPOSITORY,
+  TYPEORM_DATA_SOURCE,
+} from 'src/common/consts';
 
 export const pasteProviders = [
   {
-    provide: 'PASTE_REPOSITORY',
+    provide: PASTE_TYPEORM_REPOSITORY,
     useFactory: (dataSource: DataSource) => dataSource.getRepository(Paste),
-    inject: ['DATA_SOURCE'],
+    inject: [TYPEORM_DATA_SOURCE],
   },
 ];
