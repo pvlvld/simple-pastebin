@@ -10,14 +10,19 @@ import {
   Delete,
   HttpCode,
   HttpStatus,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { PasteService } from './paste.service';
 import { CreatePasteDto, UpdatePasteDto, PasteResponseDto } from './dto';
 import { plainToClass } from 'class-transformer';
+import { ConfigService } from '@nestjs/config';
 
 @Controller()
 export class PasteController {
-  constructor(private readonly pasteService: PasteService) {}
+  constructor(
+    private readonly pasteService: PasteService,
+    private readonly configService: ConfigService,
+  ) {}
 
   @Get(':id')
   async get(@Param('id', ParseIntPipe) id: number): Promise<PasteResponseDto> {
@@ -51,6 +56,10 @@ export class PasteController {
     @Param('id', ParseIntPipe) id: number,
     @Body() updatePasteDto: UpdatePasteDto,
   ): Promise<PasteResponseDto> {
+    if (this.configService.get('NODE_ENV') === 'development') {
+      throw new UnauthorizedException();
+    }
+
     const paste = await this.pasteService.update(id, updatePasteDto);
 
     if (!paste || paste.isDeleted) {
@@ -64,6 +73,10 @@ export class PasteController {
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   async remove(@Param('id', ParseIntPipe) id: number): Promise<void> {
+    if (this.configService.get('NODE_ENV') === 'development') {
+      throw new UnauthorizedException();
+    }
+
     const paste = await this.pasteService.findOne(id);
 
     if (!paste || paste.isDeleted) {
