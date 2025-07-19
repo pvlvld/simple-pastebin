@@ -1,25 +1,32 @@
 #!/usr/bin/env sh
 # Get a list of staged files, filtered for .ts and .js extensions
-STAGED_JS_TS_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(ts|js)$' || true)
-echo "here"
+# STAGED_JS_TS_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(ts|js)$' || true)
+# echo "here"
 
-if [ -z "$STAGED_JS_TS_FILES" ]; then
-  echo "No staged .ts or .js files to format. Skipping Prettier."
-  exit 0
-fi
+# if [ -z "$STAGED_JS_TS_FILES" ]; then
+#   echo "No staged .ts or .js files to format. Skipping Prettier."
+#   exit 0
+# fi
 
-echo "Running Prettier on staged .ts and .js files..."
+# echo "Running Prettier on staged .ts and .js files..."
 
-npx prettier --log-level silent --write --list-different -- $STAGED_JS_TS_FILES
+# npx prettier --log-level silent --write --list-different -- $STAGED_JS_TS_FILES
 
-# Add back only the files that Prettier actually modified
-echo "$STAGED_JS_TS_FILES" | while IFS= read -r file; do
-  if [ -f "$file" ]; then
-    if ! git diff --quiet "$file"; then
-      echo "Staging changes for: $file"
-      git add "$file"
-    fi
-  fi
-done
+# # Add back only the files that Prettier actually modified
+# echo "$STAGED_JS_TS_FILES" | while IFS= read -r file; do
+#   if [ -f "$file" ]; then
+#     if ! git diff --quiet "$file"; then
+#       echo "Staging changes for: $file"
+#       git add "$file"
+#     fi
+#   fi
+# done
 
-echo "Prettier formatting complete and changes staged."
+# echo "Prettier formatting complete and changes staged."
+
+### ========== ###
+
+# Approach above is staging full files including unstaged before changes.
+# More info - https://github.com/hallettj/git-format-staged?tab=readme-ov-file#git-format-staged
+
+npx git-format-staged --formatter 'prettier --stdin-filepath "{}"' 'src/*.ts' 'test/*.ts'
