@@ -1,7 +1,8 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { IPaste } from './interfaces/paste.interface';
 
 @Entity()
-export class Paste {
+export class Paste implements IPaste {
   @PrimaryGeneratedColumn()
   id: number;
 
