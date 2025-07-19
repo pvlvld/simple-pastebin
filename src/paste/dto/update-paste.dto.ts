@@ -20,5 +20,6 @@ export class UpdatePasteDto implements IUpdatePaste {
   })
   @IsOptional()
   @IsString()
+  @MaxLength(10000, { message: 'Content must not exceed 10000 characters' })
   content?: string;
 }
